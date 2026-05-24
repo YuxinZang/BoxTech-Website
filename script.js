@@ -3,6 +3,8 @@ const nav = document.querySelector("[data-nav]");
 const navToggle = document.querySelector("[data-nav-toggle]");
 const revealTargets = document.querySelectorAll(".reveal");
 const starfield = document.querySelector("[data-starfield]");
+const cursorAura = document.querySelector("[data-cursor-aura]");
+const scrollProgress = document.querySelector("[data-scroll-progress]");
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 window.__boxtechReduceMotion = reduceMotion;
 
@@ -10,8 +12,18 @@ const setHeaderState = () => {
   header.classList.toggle("is-scrolled", window.scrollY > 12);
 };
 
+const setScrollProgress = () => {
+  if (!scrollProgress) return;
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+  scrollProgress.style.transform = `scaleX(${Math.min(Math.max(progress, 0), 1)})`;
+};
+
 setHeaderState();
+setScrollProgress();
 window.addEventListener("scroll", setHeaderState, { passive: true });
+window.addEventListener("scroll", setScrollProgress, { passive: true });
+window.addEventListener("resize", setScrollProgress, { passive: true });
 
 navToggle.addEventListener("click", () => {
   const isOpen = nav.classList.toggle("is-open");
@@ -46,9 +58,18 @@ window.addEventListener(
   (event) => {
     document.documentElement.style.setProperty("--mx", `${event.clientX}px`);
     document.documentElement.style.setProperty("--my", `${event.clientY}px`);
+
+    if (cursorAura && !reduceMotion) {
+      cursorAura.classList.add("is-active");
+      cursorAura.style.transform = `translate3d(${event.clientX - 65}px, ${event.clientY - 65}px, 0)`;
+    }
   },
   { passive: true }
 );
+
+window.addEventListener("pointerleave", () => {
+  cursorAura?.classList.remove("is-active");
+});
 
 const setupStarfield = () => {
   if (!starfield) return;
@@ -77,15 +98,16 @@ const setupStarfield = () => {
     context.setTransform(ratio, 0, 0, ratio, 0, 0);
     canvas.dataset.ready = "true";
 
-    const starCount = Math.min(260, Math.max(120, Math.floor((width * height) / 6800)));
+    const starCount = Math.min(420, Math.max(180, Math.floor((width * height) / 4300)));
     stars = Array.from({ length: starCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
       z: random(0.25, 1),
-      size: random(0.6, 2.2),
+      size: random(0.55, 2.45),
       twinkle: random(0, Math.PI * 2),
       speed: random(0.06, 0.32)
     }));
+    window.__boxtechStarCount = stars.length;
   };
 
   const addComet = () => {
@@ -104,8 +126,8 @@ const setupStarfield = () => {
     context.clearRect(0, 0, width, height);
     context.globalCompositeOperation = "lighter";
 
-    const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 260);
-    glow.addColorStop(0, pointer.active ? "rgba(69,199,255,0.18)" : "rgba(69,199,255,0.08)");
+    const glow = context.createRadialGradient(pointer.x, pointer.y, 0, pointer.x, pointer.y, 120);
+    glow.addColorStop(0, pointer.active ? "rgba(69,199,255,0.055)" : "rgba(69,199,255,0.025)");
     glow.addColorStop(1, "rgba(69,199,255,0)");
     context.fillStyle = glow;
     context.fillRect(0, 0, width, height);
@@ -121,10 +143,10 @@ const setupStarfield = () => {
       const dx = pointer.x - star.x;
       const dy = pointer.y - star.y;
       const distance = Math.hypot(dx, dy);
-      const pull = pointer.active && distance < 150 ? (150 - distance) / 150 : 0;
-      const x = star.x - dx * pull * 0.025;
-      const y = star.y - dy * pull * 0.025;
-      const alpha = 0.22 + Math.sin(star.twinkle + time * 0.0015) * 0.24 + star.z * 0.5 + pull * 0.3;
+      const pull = pointer.active && distance < 95 ? (95 - distance) / 95 : 0;
+      const x = star.x - dx * pull * 0.012;
+      const y = star.y - dy * pull * 0.012;
+      const alpha = 0.26 + Math.sin(star.twinkle + time * 0.0015) * 0.26 + star.z * 0.52 + pull * 0.1;
 
       context.beginPath();
       context.fillStyle = `rgba(${star.z > 0.72 ? "168,121,255" : "176,226,255"}, ${Math.min(alpha, 1)})`;
@@ -132,7 +154,7 @@ const setupStarfield = () => {
       context.fill();
     }
 
-    if (time - lastComet > 4200 && Math.random() > 0.42) {
+    if (time - lastComet > 2200 && Math.random() > 0.16) {
       addComet();
       lastComet = time;
     }
@@ -183,7 +205,7 @@ const setupTiltCards = () => {
   if (reduceMotion) return;
 
   const tiltTargets = document.querySelectorAll(
-    ".hero__panel, .platform-console, .capability-card, .collab-card, .outcome-card, .process-step, .platform-item"
+    ".hero__panel, .platform-console, .lab-core, .lab-stack__item, .capability-card, .collab-card, .outcome-card, .signature-card, .process-step, .platform-item"
   );
 
   tiltTargets.forEach((target) => {

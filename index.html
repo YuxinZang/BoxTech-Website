@@ -8,10 +8,12 @@
       name="description"
       content="BoxTech 提供 VR/AR/XR 开发、交互系统设计、硬件原型、计算机视觉与 AI 集成等沉浸式技术研发合作。"
     >
-    <link rel="stylesheet" href="styles.css?v=stars-2">
+    <link rel="stylesheet" href="styles.css?v=stars-4">
   </head>
   <body>
     <canvas class="starfield" data-starfield aria-hidden="true"></canvas>
+    <div class="cursor-aura" data-cursor-aura aria-hidden="true"></div>
+    <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
     <div class="site-shell">
       <header class="site-header" data-header>
         <a class="brand" href="#top" aria-label="BoxTech home">
@@ -29,6 +31,7 @@
 
         <nav class="site-nav" data-nav>
           <a href="#expertise">研发能力</a>
+          <a href="#lab-os">系统亮点</a>
           <a href="#platform">技术平台</a>
           <a href="#collaboration">合作方向</a>
           <a href="#process">交付流程</a>
@@ -79,6 +82,11 @@
                 从概念验证到硬件集成，从交互体验到实验系统，打造能展示、能测试、能继续迭代的技术样机。
               </p>
             </div>
+            <div class="hero-status" aria-label="BoxTech live system signals">
+              <span>Signal Online</span>
+              <span>Prototype Engine Active</span>
+              <span>Future Interface Mode</span>
+            </div>
             <div class="hero-metrics" aria-label="BoxTech delivery highlights">
               <div>
                 <strong>4</strong>
@@ -93,6 +101,19 @@
                 <span>创意迭代空间</span>
               </div>
             </div>
+          </div>
+        </section>
+
+        <section class="signal-marquee" aria-label="BoxTech technology stream">
+          <div class="signal-marquee__track">
+            <span>Spatial Computing</span>
+            <span>Immersive Simulation</span>
+            <span>AI Perception</span>
+            <span>Sensor Fusion</span>
+            <span>Hardware Prototype</span>
+            <span>Research Showcase</span>
+            <span>Interaction Intelligence</span>
+            <span>Experiment-ready Demo</span>
           </div>
         </section>
 
@@ -112,6 +133,80 @@
           <div class="intro-strip__item">
             <span>04</span>
             <strong>面向展示、测试与交付</strong>
+          </div>
+        </section>
+
+        <section class="section lab-os section-pad" id="lab-os" aria-labelledby="lab-os-title">
+          <div class="lab-os__header reveal">
+            <p class="eyebrow">BoxTech Lab OS</p>
+            <h2 id="lab-os-title">把一个普通想法，包装成一套像未来产品一样的研发系统</h2>
+            <p>
+              我们擅长把“想做一个交互 Demo”升级成完整技术叙事：有视觉冲击、有硬件触感、有 AI 感知、有实验逻辑，也有能说服观众的展示节奏。
+            </p>
+          </div>
+
+          <div class="lab-os__layout">
+            <div class="lab-core reveal" aria-label="BoxTech integrated research core">
+              <div class="lab-core__rings" aria-hidden="true">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <img src="assets/logo_transparent.png" alt="">
+              <strong>BoxTech Core</strong>
+              <p>XR · AI Vision · Hardware · Research Delivery</p>
+            </div>
+
+            <div class="lab-stack">
+              <article class="lab-stack__item reveal">
+                <span>01</span>
+                <div class="lab-copy">
+                  <h3>概念不只是概念</h3>
+                  <p>先把项目的“可讲性”提炼出来：目标场景、技术亮点、用户体验和最终展示画面同步设计。</p>
+                </div>
+                <div class="lab-visual lab-visual--concept" aria-hidden="true">
+                  <i></i>
+                  <b></b>
+                  <em></em>
+                </div>
+              </article>
+              <article class="lab-stack__item reveal">
+                <span>02</span>
+                <div class="lab-copy">
+                  <h3>交互不只是点击</h3>
+                  <p>用手势、空间、传感器、视觉识别和实时反馈，让系统看起来像真正的未来界面。</p>
+                </div>
+                <div class="lab-visual lab-visual--interaction" aria-hidden="true">
+                  <i></i>
+                  <b></b>
+                  <em></em>
+                </div>
+              </article>
+              <article class="lab-stack__item reveal">
+                <span>03</span>
+                <div class="lab-copy">
+                  <h3>硬件不只是外设</h3>
+                  <p>把设备、结构、传感器和软件流程整合到同一体验里，让原型有真实触感和可信度。</p>
+                </div>
+                <div class="lab-visual lab-visual--hardware" aria-hidden="true">
+                  <i></i>
+                  <b></b>
+                  <em></em>
+                </div>
+              </article>
+              <article class="lab-stack__item reveal">
+                <span>04</span>
+                <div class="lab-copy">
+                  <h3>展示不只是播放</h3>
+                  <p>围绕汇报、展厅、竞赛和实验现场设计演示路径，让观众快速理解“它为什么厉害”。</p>
+                </div>
+                <div class="lab-visual lab-visual--showcase" aria-hidden="true">
+                  <i></i>
+                  <b></b>
+                  <em></em>
+                </div>
+              </article>
+            </div>
           </div>
         </section>
 
@@ -317,6 +412,39 @@
           </div>
         </section>
 
+        <section class="section signature section-pad" aria-labelledby="signature-title">
+          <div class="section-heading reveal">
+            <p class="eyebrow">Signature Output</p>
+            <h2 id="signature-title">我们把项目做得像一个可以被投资、被展示、被研究的技术产品</h2>
+            <p>
+              BoxTech 的价值不是“写几段代码”，而是把技术、视觉、交互和叙事整合到一个完整成果里，让项目一眼看上去就更专业。
+            </p>
+          </div>
+
+          <div class="signature-grid">
+            <article class="signature-card reveal">
+              <small>01 / Narrative</small>
+              <h3>技术叙事</h3>
+              <p>把项目讲成清晰的未来场景：为什么做、解决什么、技术亮点在哪里、观众应该看什么。</p>
+            </article>
+            <article class="signature-card reveal">
+              <small>02 / System</small>
+              <h3>系统质感</h3>
+              <p>界面、硬件、交互、反馈、动效和灯光感统一，避免“能跑但很简陋”的 Demo 气质。</p>
+            </article>
+            <article class="signature-card reveal">
+              <small>03 / Evidence</small>
+              <h3>研究证据</h3>
+              <p>保留实验记录、测试流程、技术结构和可复用材料，让成果可以继续写报告、做申请或推进论文。</p>
+            </article>
+            <article class="signature-card reveal">
+              <small>04 / Showcase</small>
+              <h3>现场表现</h3>
+              <p>围绕真实展示环境准备演示流程、容错方案和讲解节奏，让系统在关键时刻稳得住。</p>
+            </article>
+          </div>
+        </section>
+
         <section class="section process section-pad" id="process" aria-labelledby="process-title">
           <div class="section-heading reveal">
             <p class="eyebrow">Delivery Flow</p>
@@ -374,6 +502,6 @@
       </footer>
     </div>
 
-    <script src="script.js?v=stars-2"></script>
+    <script src="script.js?v=stars-4"></script>
   </body>
 </html>
