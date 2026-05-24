@@ -17,6 +17,8 @@
   --header-height: 78px;
   --mx: 50%;
   --my: 20%;
+  --shine-x: 50%;
+  --shine-y: 50%;
 }
 
 * {
@@ -30,6 +32,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
+  overflow-x: hidden;
   background:
     radial-gradient(circle at var(--mx) var(--my), rgba(69, 199, 255, 0.18), transparent 22rem),
     radial-gradient(circle at 18% 12%, rgba(227, 75, 115, 0.16), transparent 24rem),
@@ -37,6 +40,17 @@ body {
   color: var(--text);
   font-family: Inter, "Noto Sans SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.5;
+}
+
+.starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.92;
+  mix-blend-mode: screen;
 }
 
 body::before,
@@ -78,6 +92,8 @@ button {
 }
 
 .site-shell {
+  position: relative;
+  z-index: 1;
   min-height: 100vh;
   overflow: hidden;
 }
@@ -121,6 +137,12 @@ button {
   height: 52px;
   object-fit: contain;
   filter: drop-shadow(0 0 18px rgba(227, 75, 115, 0.38));
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.brand:hover .brand__mark {
+  transform: translateY(-2px) rotate(-4deg) scale(1.05);
+  filter: drop-shadow(0 0 24px rgba(227, 75, 115, 0.62));
 }
 
 .brand__text {
@@ -225,6 +247,7 @@ button {
     linear-gradient(120deg, rgba(69, 199, 255, 0) 0 36%, rgba(69, 199, 255, 0.16) 36.15%, rgba(69, 199, 255, 0) 36.35%),
     linear-gradient(55deg, rgba(168, 121, 255, 0) 0 62%, rgba(168, 121, 255, 0.16) 62.12%, rgba(168, 121, 255, 0) 62.32%);
   opacity: 0.92;
+  animation: hero-haze 12s ease-in-out infinite alternate;
 }
 
 .hero::after {
@@ -248,6 +271,7 @@ button {
     radial-gradient(circle at 42% 82%, rgba(168, 121, 255, 0.16), transparent 22rem),
     linear-gradient(110deg, rgba(3, 9, 20, 0.98) 0%, rgba(5, 13, 28, 0.94) 56%, rgba(6, 12, 24, 0.98) 100%);
   background-size: 84px 84px, 84px 84px, auto, auto, auto;
+  animation: grid-drift 22s linear infinite;
 }
 
 .hero__nodes {
@@ -264,6 +288,7 @@ button {
   border-radius: 50%;
   background: var(--cyan);
   box-shadow: 0 0 22px rgba(69, 199, 255, 0.82);
+  animation: node-pulse 2.6s ease-in-out infinite;
 }
 
 .hero__nodes span:nth-child(1) {
@@ -276,6 +301,7 @@ button {
   right: 12%;
   background: var(--violet);
   box-shadow: 0 0 24px rgba(168, 121, 255, 0.86);
+  animation-delay: 0.8s;
 }
 
 .hero__nodes span:nth-child(3) {
@@ -283,6 +309,7 @@ button {
   left: 44%;
   background: var(--green);
   box-shadow: 0 0 24px rgba(73, 230, 194, 0.78);
+  animation-delay: 1.4s;
 }
 
 .hero__nodes span:nth-child(4) {
@@ -301,6 +328,7 @@ button {
   background: linear-gradient(90deg, transparent, rgba(69, 199, 255, 0.82), transparent);
   box-shadow: 0 0 22px rgba(69, 199, 255, 0.55);
   transform: rotate(-25deg);
+  animation: beam-scan 7s ease-in-out infinite alternate;
 }
 
 .hero__beam--one {
@@ -313,6 +341,7 @@ button {
   bottom: 28%;
   background: linear-gradient(90deg, transparent, rgba(168, 121, 255, 0.88), transparent);
   box-shadow: 0 0 22px rgba(168, 121, 255, 0.58);
+  animation-delay: 1.8s;
 }
 
 .hero__content {
@@ -397,11 +426,27 @@ h3 {
   border: 1px solid rgba(126, 190, 255, 0.32);
   border-radius: var(--radius);
   font-weight: 800;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  position: relative;
+  overflow: hidden;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.button::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.35) 46%, transparent 58%);
+  transform: translateX(-120%);
+  transition: transform 420ms ease;
+}
+
+.button:hover::before {
+  transform: translateX(120%);
 }
 
 .button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 18px 48px rgba(69, 199, 255, 0.22);
 }
 
 .button--primary {
@@ -429,6 +474,8 @@ h3 {
   background: linear-gradient(180deg, rgba(12, 24, 44, 0.72), rgba(4, 9, 18, 0.82));
   box-shadow: var(--shadow);
   backdrop-filter: blur(18px);
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .hero__panel::before {
@@ -438,6 +485,11 @@ h3 {
   content: "";
   border-radius: inherit;
   background: linear-gradient(135deg, rgba(69, 199, 255, 0.36), transparent 38%, rgba(227, 75, 115, 0.34));
+}
+
+.hero__panel:hover {
+  border-color: rgba(126, 190, 255, 0.44);
+  box-shadow: 0 30px 90px rgba(44, 125, 255, 0.28);
 }
 
 .orbit-logo {
@@ -540,9 +592,17 @@ h3 {
 }
 
 .intro-strip__item {
+  position: relative;
   min-height: 116px;
   padding: 28px clamp(20px, 3vw, 42px);
   border-right: 1px solid rgba(126, 190, 255, 0.16);
+  overflow: hidden;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.intro-strip__item:hover {
+  background: rgba(69, 199, 255, 0.055);
+  transform: translateY(-2px);
 }
 
 .intro-strip__item:last-child {
@@ -603,6 +663,8 @@ h3 {
   background-size: auto, 48px 48px, 48px 48px;
   box-shadow: var(--shadow);
   overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .platform-console::before {
@@ -623,6 +685,12 @@ h3 {
   background: linear-gradient(90deg, transparent, rgba(73, 230, 194, 0.72), transparent);
   box-shadow: 0 0 24px rgba(73, 230, 194, 0.36);
   transform: rotate(12deg);
+  animation: console-scan 4.8s ease-in-out infinite alternate;
+}
+
+.platform-console:hover {
+  border-color: rgba(73, 230, 194, 0.34);
+  box-shadow: 0 34px 90px rgba(69, 199, 255, 0.22);
 }
 
 .console-topbar {
@@ -705,6 +773,7 @@ h3 {
   border-radius: inherit;
   background: linear-gradient(90deg, var(--cyan), var(--violet), var(--magenta));
   box-shadow: 0 0 18px rgba(69, 199, 255, 0.42);
+  animation: progress-glow 3.2s ease-in-out infinite alternate;
 }
 
 .platform-list {
@@ -713,6 +782,7 @@ h3 {
 }
 
 .platform-item {
+  position: relative;
   display: grid;
   grid-template-columns: 54px minmax(0, 1fr);
   gap: 18px;
@@ -721,6 +791,9 @@ h3 {
   border: 1px solid rgba(126, 190, 255, 0.18);
   border-radius: var(--radius);
   background: linear-gradient(135deg, rgba(12, 24, 44, 0.82), rgba(5, 11, 22, 0.76));
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .platform-item span {
@@ -759,6 +832,53 @@ h3 {
     linear-gradient(180deg, rgba(12, 24, 44, 0.8), rgba(7, 13, 25, 0.82)),
     radial-gradient(circle at 30% 0%, rgba(69, 199, 255, 0.12), transparent 14rem);
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.capability-card::before,
+.collab-card::before,
+.process-step::before,
+.outcome-card::before,
+.platform-item::before,
+.intro-strip__item::before {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  content: "";
+  background: radial-gradient(circle at var(--shine-x) var(--shine-y), rgba(126, 190, 255, 0.22), transparent 32%);
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+.capability-card:hover,
+.collab-card:hover,
+.process-step:hover,
+.outcome-card:hover,
+.platform-item:hover {
+  border-color: rgba(126, 190, 255, 0.38);
+  box-shadow: 0 26px 70px rgba(44, 125, 255, 0.18);
+}
+
+.capability-card:hover::before,
+.collab-card:hover::before,
+.process-step:hover::before,
+.outcome-card:hover::before,
+.platform-item:hover::before,
+.intro-strip__item:hover::before {
+  opacity: 1;
+}
+
+.capability-card > *,
+.collab-card > *,
+.process-step > *,
+.outcome-card > *,
+.platform-item > *,
+.intro-strip__item > * {
+  position: relative;
+  z-index: 1;
 }
 
 .capability-card {
@@ -872,6 +992,7 @@ h3 {
 }
 
 .outcome-card {
+  position: relative;
   min-height: 280px;
   padding: 30px;
   border: 1px solid rgba(126, 190, 255, 0.18);
@@ -880,6 +1001,9 @@ h3 {
     linear-gradient(180deg, rgba(13, 27, 49, 0.84), rgba(5, 11, 22, 0.9)),
     linear-gradient(135deg, rgba(69, 199, 255, 0.12), transparent 42%, rgba(227, 75, 115, 0.12));
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
 }
 
 .outcome-card span {
@@ -1013,6 +1137,16 @@ h3 {
   transform: translateY(0);
 }
 
+.reveal.is-visible.capability-card,
+.reveal.is-visible.collab-card,
+.reveal.is-visible.outcome-card,
+.reveal.is-visible.process-step,
+.reveal.is-visible.platform-item,
+.reveal.is-visible.platform-console,
+.reveal.is-visible.hero__panel {
+  transition: opacity 600ms ease, transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+}
+
 @keyframes orbit {
   from {
     transform: rotate(0deg) skew(-8deg);
@@ -1020,6 +1154,73 @@ h3 {
 
   to {
     transform: rotate(360deg) skew(-8deg);
+  }
+}
+
+@keyframes hero-haze {
+  from {
+    opacity: 0.72;
+    transform: translate3d(-1.2%, -0.8%, 0) scale(1);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(1.2%, 0.8%, 0) scale(1.03);
+  }
+}
+
+@keyframes grid-drift {
+  from {
+    background-position: 0 0, 0 0, center, center, center;
+  }
+
+  to {
+    background-position: 84px 84px, -84px 84px, center, center, center;
+  }
+}
+
+@keyframes node-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: scale(0.82);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.24);
+  }
+}
+
+@keyframes beam-scan {
+  from {
+    opacity: 0.36;
+    filter: blur(0);
+  }
+
+  to {
+    opacity: 0.82;
+    filter: blur(0.5px);
+  }
+}
+
+@keyframes console-scan {
+  from {
+    transform: translateY(-24px) rotate(12deg);
+  }
+
+  to {
+    transform: translateY(24px) rotate(12deg);
+  }
+}
+
+@keyframes progress-glow {
+  from {
+    inset: 0 48% 0 0;
+  }
+
+  to {
+    inset: 0 18% 0 0;
   }
 }
 
